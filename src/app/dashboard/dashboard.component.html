@@ -1,0 +1,339 @@
+<app-shared-header></app-shared-header>
+
+<!--    tableau -->
+
+<br>
+<br>
+<br>
+<div class="container">
+  <h2>Offres</h2>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Offres Id</th>
+        <th>Proposè par :</th>
+        <th>Date</th>
+        <th>Ville de depart</th>
+        <th>Ville d'arrivèe</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!--  -->
+
+      <tr>
+        <td>
+          536
+        </td>
+        <td>
+          Emplyée 1
+        </td>
+        <td>
+          01/05/2021
+        </td>
+        <td>
+          Alger
+        </td>
+        <td>
+          Oran
+        </td>
+        <td>
+          <div class="row">
+
+            <div class="col-md-4">
+              <button type="button" (click)="openModal(template, task)" class="btn btn-warning right">Modifier</button>
+            </div>
+            <div class="col-md-4">
+              <button type="button" (click)="delTask(task.id)" class="btn btn-danger right">Supprimer</button>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+
+
+      <tr *ngFor="let task of tasks; let i = index">
+        <td>
+          {{task.id}}
+        </td>
+        <td>
+          {{task.emplyer}}
+        </td>
+        <td>
+          {{task.date}}
+        </td>
+        <td>
+          {{task.vd}}
+        </td>
+        <td>
+          <div class="row">
+            <div class="col-md-6">
+              {{task.va}}
+            </div>
+            <div class="col-md-3">
+              <button type="button" (click)="openModal(template, task)" class="btn btn-warning right">Modifier</button>
+            </div>
+            <div class="col-md-3">
+              <button type="button" (click)="delTask(task.id)" class="btn btn-danger right">Supprimer</button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Modifier offre</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label for="exampleInputEmail1">Proposè par :</label>
+          {{editingId}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label for="exampleInputEmail1">Date</label>
+          <input type="date" class="form-control" formControlName="task" id="date" placeholder="Create a Task">
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label for="exampleInputPassword1">Ville de depart</label>
+          <input type="text" class="form-control" formControlName="assignee" id="vd" placeholder="Assignee">
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label for="exampleInputPassword1">Ville d'arrivèe</label>
+          <input type="text" class="form-control" formControlName="assignee" id="va" placeholder="Assignee">
+        </div>
+      </div>
+      <div class="btncenter">
+        <button type="submit" [disabled]="!editForm.valid" class="btn btn-danger">Confirmer</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+
+
+
+<!-- ajouter offres -->
+
+
+
+
+
+<div class="row">
+
+  <div class="col-md-10 mrgtop5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 mrgnbtm">
+          <h2>AJOUTER DES OFFRES</h2>
+          <form [formGroup]="todoForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="employer">Proposè par :</label>
+                <input type="text" class="form-control" formControlName="task" id="employer" aria-describedby="emailHelp" placeholder="Ajouter le nom de l'employè qui propose l'offre">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="date">Date</label>
+                <input type="date" class="form-control" formControlName="assignee" id="date" placeholder="01/05/2021">
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="vd">Ville de depart</label>
+                <input type="text" class="form-control" formControlName="task1" id="vd" aria-describedby="emailHelp" placeholder="Alger">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="va">Ville d'arrivèe</label>
+                <input type="text" class="form-control" formControlName="assignee1" id="va" placeholder="Paris">
+              </div>
+            </div>
+
+            <button type="submit" [disabled]="!todoForm.valid" class="btn btn-danger">CREER L'OFFRE</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-md-10 mrgtop5">
+
+      <div class="mrgnbtm">
+        <app-tasks *ngIf="tasks !== undefined && tasks?.length !== 0" [tasks]="tasks" (deleteTask)="deleteTask($event)"
+          (editTask)="editTask($event)">
+        </app-tasks>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- modifier offres -->
+
+
+
+
+
+<div class="row">
+
+  <div class="col-md-10 mrgtop5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 mrgnbtm">
+          <h2>MODIFIER DES OFFRES</h2>
+          <form [formGroup]="todoForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="employer">ID de l'offre a modifier  :</label>
+                <input type="text" class="form-control" formControlName="task" id="employer" aria-describedby="emailHelp" placeholder="Ajouter l'ID de  l'offre">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="employer">Proposè par :</label>
+                <input type="text" class="form-control" formControlName="task" id="employer" aria-describedby="emailHelp" placeholder="Ajouter le nom de l'employè qui propose l'offre">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="date">Date</label>
+                <input type="date" class="form-control" formControlName="assignee" id="date" placeholder="01/05/2021">
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="vd">Ville de depart</label>
+                <input type="text" class="form-control" formControlName="task1" id="vd" aria-describedby="emailHelp" placeholder="Alger">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="va">Ville d'arrivèe</label>
+                <input type="text" class="form-control" formControlName="assignee1" id="va" placeholder="Paris">
+              </div>
+            </div>
+
+            <button type="submit" [disabled]="!todoForm.valid" class="btn btn-danger">ENREGISTRER LES MODIFICATION </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-md-10 mrgtop5">
+
+      <div class="mrgnbtm">
+        <app-tasks *ngIf="tasks !== undefined && tasks?.length !== 0" [tasks]="tasks" (deleteTask)="deleteTask($event)"
+          (editTask)="editTask($event)">
+        </app-tasks>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<!-- Supprime les offres -->
+
+
+
+
+
+<div class="row">
+
+  <div class="col-md-10 mrgtop5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 mrgnbtm">
+          <h2>SUPPRIMER DES OFFRES</h2>
+          <form [formGroup]="todoForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="employer">ID de l'offre :</label>
+                <input type="text" class="form-control" formControlName="task" id="employer" aria-describedby="emailHelp" placeholder="1542">
+              </div>
+
+            </div>
+
+
+            <button type="submit" [disabled]="!todoForm.valid" class="btn btn-danger">SUPPRIMER</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-md-10 mrgtop5">
+
+      <div class="mrgnbtm">
+        <app-tasks *ngIf="tasks !== undefined && tasks?.length !== 0" [tasks]="tasks" (deleteTask)="deleteTask($event)"
+          (editTask)="editTask($event)">
+        </app-tasks>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- Chercher les offres -->
+
+
+
+
+
+<div class="row">
+
+  <div class="col-md-10 mrgtop5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 mrgnbtm">
+          <h2>CHERCHER DES OFFRES (proposer un des critéres de recherche ) </h2>
+          <form [formGroup]="todoForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="employer">ID de l'offre :</label>
+                <input type="text" class="form-control" formControlName="task" id="employer" aria-describedby="emailHelp" placeholder="Ajouter l'ID de  l'offre">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="employer">Proposè par :</label>
+                <input type="text" class="form-control" formControlName="task" id="employer" aria-describedby="emailHelp" placeholder="Ajouter le nom de l'employè qui propose l'offre">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="date">Date</label>
+                <input type="date" class="form-control" formControlName="assignee" id="date" placeholder="01/05/2021">
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="vd">Ville de depart</label>
+                <input type="text" class="form-control" formControlName="task1" id="vd" aria-describedby="emailHelp" placeholder="Alger">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="va">Ville d'arrivèe</label>
+                <input type="text" class="form-control" formControlName="assignee1" id="va" placeholder="Paris">
+              </div>
+            </div>
+
+            <button type="submit" [disabled]="!todoForm.valid" class="btn btn-danger">CHERCHER L'OFFRE</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-md-10 mrgtop5">
+
+      <div class="mrgnbtm">
+        <app-tasks *ngIf="tasks !== undefined && tasks?.length !== 0" [tasks]="tasks" (deleteTask)="deleteTask($event)"
+          (editTask)="editTask($event)">
+        </app-tasks>
+      </div>
+    </div>
+
+  </div>
+</div>
